@@ -1,0 +1,52 @@
+create table riwi_supplier (
+id INT  primary key,
+name_suplier VARCHAR(250) not null UNIQUE
+); 
+
+CREATE TABLE riwi_store (
+id INT PRIMARY KEY,
+name_store VARCHAR(150) NOT NULL,
+city_store VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE riwi_product (
+id INT PRIMARY KEY,
+product_name VARCHAR(150) NOT NULL,
+category VARCHAR(100) NOT null
+);
+
+CREATE TABLE riwi_purchase_order (
+ id INT PRIMARY KEY, 
+ supplier INT NOT NULL,
+ transaction_date DATE NOT NULL,
+ FOREIGN KEY (id) references riwi_supplier(id)
+);
+
+create type status_type as enum ('INT', 'OUT', 'PENDING');
+
+CREATE TABLE riwi_inventory_movement (
+id serial PRIMARY KEY, 
+order_code int,
+product INT,
+store INT,
+movement_type status_type default 'PENDING', 
+
+FOREIGN KEY (order_code) references  riwi_purchase_order(id),
+FOREIGN KEY (product) references  riwi_product(id),
+FOREIGN KEY (store) references  riwi_store(id)
+);
+
+CREATE TABLE riwi_city (
+id SERIAL PRIMARY KEY,
+supplier INT,
+store INT,
+
+FOREIGN KEY (supplier) REFERENCES riwi_supplier(id),
+FOREIGN KEY (store) REFERENCES riwi_store(id)
+);
+
+
+
+
+
+
